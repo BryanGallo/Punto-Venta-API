@@ -7,13 +7,15 @@
 
 1. Clonar Proyecto
 2. ``npm install``
+3. Clonar el archivo ```.env.template``` y renombrarlo a ```.env```
+4. Cambiar las variables de entorno
 
-3. Instalar modulos
+5. Instalar modulos
 ```bash
 $ npm install
 ```
 
-4. Arrancar el proyecto
+6. Arrancar el proyecto
 
 ```bash
 # development
