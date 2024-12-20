@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
+import { log } from 'node:console';
 
 @Injectable()
 export class CategoriesService {
@@ -19,19 +20,26 @@ export class CategoriesService {
     return category;
   }
 
-  findAll() {
-    return `This action returns all categories`;
+  async findAll() {
+    const categories = await this.categoryRepository.find();
+    return categories;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number) {
+    //? findOne para consultas complicadas por ejemplo
+    // const category = await this.categoryRepository.findOne({
+    //   where: { id },
+    // });
+    //? findOneBy para consultas basicas
+    const category = await this.categoryRepository.findOneBy({ id });
+    return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     return `This action updates a #${id} category`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} category`;
   }
 }
