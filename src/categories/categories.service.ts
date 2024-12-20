@@ -12,8 +12,10 @@ export class CategoriesService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  async create(createCategoryDto: CreateCategoryDto) {
+      const category = new Category();
+      category.nombre = createCategoryDto.name;
+    return await this.categoryRepository.save(category);
   }
 
   findAll() {
