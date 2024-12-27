@@ -37,16 +37,25 @@ export class CategoriesService {
       //? Devolviendo de una manera generica se debe colocar el codigo del status que deseamos retornar
       // throw new HttpException(`La categoria con el id ${id} no existe`, 404);
       //* Usando HTTP exceptions ya otorgados por nest
-      throw new NotFoundException(`La categoria con el id ${id} no existe`)
+      throw new NotFoundException(`La categoria con el id ${id} no existe`);
     }
 
-    return category
-    
-
+    return category;
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+    //? realizando paso a paso
+    // const category = await this.findOne(id);
+
+    // category.nombre = updateCategoryDto.nombre;
+
+    // await this.categoryRepository.save(category);
+    // return `La categoria con el id ${id} fue actualizada`;
+
+    //* Usando Update
+
+    await this.categoryRepository.update(id, updateCategoryDto);
+    return `La categoria con el id ${id} fue actualizada`;
   }
 
   async remove(id: number) {
