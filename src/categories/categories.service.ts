@@ -1,4 +1,4 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -59,6 +59,14 @@ export class CategoriesService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} category`;
+    const category = await this.findOne(id);
+
+    //? Eliminación lógica y te indica cual elimino
+    await this.categoryRepository.remove(category);
+
+    //? Eliminación física y solo te indica el numero de filas afectadas
+    // await this.userRepository.delete(id);
+
+    return `La categoría ${id} fue eliminada correctamenta`;
   }
 }
