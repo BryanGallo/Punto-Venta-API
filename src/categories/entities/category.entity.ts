@@ -5,5 +5,5 @@ export class Category {
   id: number;
 
   @Column({ type: 'varchar', length: 60 })
-  nombre: string;
+  name: string;
 }
