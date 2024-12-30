@@ -1,6 +1,7 @@
 import { Category } from 'src/categories/entities/category.entity';
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
