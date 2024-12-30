@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { CategoriesModule } from './categories/categories.module';
 import { typeOrmConfig } from './config/typeorm.config';
 import { ProductModule } from './product/product.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   controllers: [AppController],
@@ -22,6 +23,7 @@ import { ProductModule } from './product/product.module';
     }),
     CategoriesModule,
     ProductModule,
+    ProductsModule,
   ],
 })
 export class AppModule {}
