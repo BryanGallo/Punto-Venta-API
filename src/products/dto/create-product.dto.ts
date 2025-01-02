@@ -18,5 +18,5 @@ export class CreateProductDto {
   //? colocamos el nombre de la columna que se creo en la tabla en este caso categoryId
   @IsInt({ message: 'Categoría no valida' })
   @IsNotEmpty({ message: 'La categorría es obligatoria' })
-  categoryId: Category;
+  categoryId: number;
 }
