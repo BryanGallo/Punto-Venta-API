@@ -27,12 +27,30 @@ export class ProductsService {
 
     return this.productRepository.save({
       ...createProductDto,
-      category
-    })
+      category,
+    });
   }
 
   async findAll() {
-    return `This action returns all products`;
+    //? Metodo convencional para traer la relacion con categorias aunque es un metodo mas eficiente
+    const products = await this.productRepository.find({
+      relations: {
+        category: true,
+      },
+      order: {
+        id: 'DESC',
+      },
+    });
+
+    //* SI colocamos "eager" en nuestra relacion de nuestro entity ya con find nos traera nuestra relacion
+    // const products = await this.productRepository.find()
+
+    //* Si nuestro proyecto usa eager: true pero por ab razon necesitamos en un punto desactivarlo podemos usar loadEagerRelations
+    // const products = await this.productRepository.find({
+    //   loadEagerRelations: false,
+    // });
+
+    return products;
   }
 
   async findOne(id: number) {
