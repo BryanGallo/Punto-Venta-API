@@ -31,9 +31,26 @@ export class ProductsService {
     });
   }
 
-  async findAll() {
+  async findAll(categoryId: number) {
+    if (categoryId) {
+      const [products, total] = await this.productRepository.findAndCount({
+        relations: {
+          category: true,
+        },
+        where: {
+          category: {
+            id: categoryId,
+          },
+        },
+        order: {
+          id: 'DESC',
+        },
+      });
+      return { products, total };
+    }
+
     //? Metodo convencional para traer la relacion con categorias aunque es un metodo mas eficiente
-    const [data, total] = await this.productRepository.findAndCount({
+    const [products, total] = await this.productRepository.findAndCount({
       relations: {
         category: true,
       },
@@ -50,7 +67,7 @@ export class ProductsService {
     //   loadEagerRelations: false,
     // });
 
-    return { data, total };
+    return { products, total };
   }
 
   async findOne(id: number) {
