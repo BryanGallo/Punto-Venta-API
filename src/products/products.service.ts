@@ -33,7 +33,7 @@ export class ProductsService {
 
   async findAll() {
     //? Metodo convencional para traer la relacion con categorias aunque es un metodo mas eficiente
-    const products = await this.productRepository.find({
+    const [data, total] = await this.productRepository.findAndCount({
       relations: {
         category: true,
       },
@@ -50,7 +50,7 @@ export class ProductsService {
     //   loadEagerRelations: false,
     // });
 
-    return products;
+    return { data, total };
   }
 
   async findOne(id: number) {
