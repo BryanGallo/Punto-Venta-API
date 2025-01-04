@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
-import { error } from 'console';
 
 @Injectable()
 export class ProductsService {
@@ -20,10 +19,16 @@ export class ProductsService {
       id: createProductDto.categoryId,
     });
 
-    if (!category){
-      throw new NotFoundException("La categoria no existe!")
+    if (!category) {
+      let errors: string[] = [];
+      errors.push('La categoria no existe');
+      throw new NotFoundException(errors);
     }
-    return `This action adds a new product`;
+
+    return this.productRepository.save({
+      ...createProductDto,
+      category
+    })
   }
 
   async findAll() {
