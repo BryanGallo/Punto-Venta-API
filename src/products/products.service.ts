@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/categories/entities/category.entity';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -32,32 +32,28 @@ export class ProductsService {
   }
 
   async findAll(categoryId: number) {
-    if (categoryId) {
-      const [products, total] = await this.productRepository.findAndCount({
-        relations: {
-          category: true,
-        },
-        where: {
-          category: {
-            id: categoryId,
-          },
-        },
-        order: {
-          id: 'DESC',
-        },
-      });
-      return { products, total };
-    }
+    //* Generamos una variable que tendra los filtros de la condicion de la consulta
 
-    //? Metodo convencional para traer la relacion con categorias aunque es un metodo mas eficiente
-    const [products, total] = await this.productRepository.findAndCount({
+    const options: FindManyOptions<Product> = {
       relations: {
         category: true,
       },
       order: {
         id: 'DESC',
       },
-    });
+    };
+
+    if (categoryId) {
+      options.where = {
+        category: {
+          id: categoryId,
+        },
+      };
+    }
+
+    //? Metodo convencional para traer la relacion con categorias aunque es un metodo mas eficiente (REVISA LA VARIABLE options)
+    const [products, total] =
+      await this.productRepository.findAndCount(options);
 
     //* SI colocamos "eager" en nuestra relacion de nuestro entity ya con find nos traera nuestra relacion
     // const products = await this.productRepository.find()
