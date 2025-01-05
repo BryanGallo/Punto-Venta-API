@@ -96,7 +96,7 @@ export class ProductsService {
 
   async update(id: number, updateProductDto: UpdateProductDto) {
     const product = await this.findOne(id);
-    
+
     //*Actualizo el producto obtenido con los datos que recibo en updateProductDto
     Object.assign(product, updateProductDto);
 
@@ -118,6 +118,10 @@ export class ProductsService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} product`;
+    const product = await this.findOne(id);
+
+    await this.productRepository.remove(product);
+
+    return `El producto con el id #${id} fue eliminado correctamenta`;
   }
 }
