@@ -5,6 +5,8 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { STATUS_CODES } from 'http';
+import { error } from 'console';
 
 @Injectable()
 export class ProductsService {
@@ -69,7 +71,29 @@ export class ProductsService {
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} product`;
+    const product = await this.productRepository.findOne({
+      relations: {
+        category: true,
+      },
+      // select: {
+      //   id: true,
+      //   name: true,
+      //   category: {
+      //     name: true,
+      //   },
+      // },
+      where: {
+        id,
+      },
+    });
+
+    if (!product) {
+      let errors: string[] = [];
+      errors.push('El producto no existe');
+      throw new NotFoundException(errors);
+    }
+
+    return product;
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
