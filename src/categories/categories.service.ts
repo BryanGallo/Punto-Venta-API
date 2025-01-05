@@ -47,13 +47,12 @@ export class CategoriesService {
     //? realizando paso a paso
     // const category = await this.findOne(id);
 
-    // category.nombre = updateCategoryDto.nombre;
+    // category.name = updateCategoryDto.name;
 
     // await this.categoryRepository.save(category);
-    // return `La categoria con el id ${id} fue actualizada`;
 
-    //* Usando Update
-
+    //* Usando Update (Usuarlo dependiendo el objetivo resulta complejo cuando es con relaciones)
+    await this.findOne(id);
     await this.categoryRepository.update(id, updateCategoryDto);
     return `La categoria con el id ${id} fue actualizada`;
   }
