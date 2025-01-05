@@ -8,4 +8,8 @@ export class GetProduct {
   @IsOptional({})
   @IsNumberString({},{message:"El límite debe ser un numero"})
   take?: number;
+
+  @IsOptional({})
+  @IsNumberString({},{message:"El salto debe ser un numero"})
+  skip?: number;
 }

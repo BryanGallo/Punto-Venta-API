@@ -31,7 +31,7 @@ export class ProductsService {
     });
   }
 
-  async findAll(categoryId: number, take: number) {
+  async findAll(categoryId: number, take: number, skip: number) {
     //* Generamos una variable que tendra los filtros de la condicion de la consulta
 
     const options: FindManyOptions<Product> = {
@@ -42,6 +42,7 @@ export class ProductsService {
         id: 'DESC',
       },
       take: take,
+      skip: skip,
     };
 
     if (categoryId) {
