@@ -5,8 +5,6 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
-import { STATUS_CODES } from 'http';
-import { error } from 'console';
 
 @Injectable()
 export class ProductsService {
@@ -97,7 +95,26 @@ export class ProductsService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+    const product = await this.findOne(id);
+    
+    //*Actualizo el producto obtenido con los datos que recibo en updateProductDto
+    Object.assign(product, updateProductDto);
+
+    if (updateProductDto.categoryId) {
+      const category = await this.categoryRepository.findOneBy({
+        id: updateProductDto.categoryId,
+      });
+      if (!category) {
+        let errors: string[] = [];
+        errors.push('La categoria no existe');
+        throw new NotFoundException(errors);
+      }
+      //*Agrego la categoria pasandole la entidad
+      product.category = category;
+    }
+    await this.productRepository.save(product);
+
+    return `El producto con el id ${id} fue actualizado correctamente`;
   }
 
   async remove(id: number) {
