@@ -1,8 +1,13 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
+import { hashPassword } from 'src/common/utils/auth.util';
 
 @Injectable()
 export class AuthService {
@@ -13,9 +18,19 @@ export class AuthService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const user = await this.userRepository.create(createUserDto);
+      const { password, ...userData } = createUserDto;
+
+      const user = await this.userRepository.create({
+        ...userData,
+        password: await hashPassword(password),
+      });
+
       await this.userRepository.save(user);
+      //* Operacion nativa de los objeto para eliminar una propiedad
+      delete user.password
+
       return user;
+      // TODO: Retornar el JWT de acceso
     } catch (error) {
       this.handleDBErrors(error);
     }
