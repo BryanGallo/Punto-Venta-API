@@ -2,12 +2,14 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
-import { hashPassword } from 'src/common/utils/auth.util';
+import { comparePassword, hashPassword } from 'src/common/utils/auth.util';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,13 +29,37 @@ export class AuthService {
 
       await this.userRepository.save(user);
       //* Operacion nativa de los objeto para eliminar una propiedad
-      delete user.password
+      delete user.password;
 
       return user;
       // TODO: Retornar el JWT de acceso
     } catch (error) {
       this.handleDBErrors(error);
     }
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    const { email, password } = loginUserDto;
+
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: { email: true, password: true },
+    });
+
+    if (!user) {
+      let errors: string[] = [];
+      errors.push('Credenciales incorrectas (email)');
+      throw new UnauthorizedException(errors);
+    }
+
+    const validation = await comparePassword(password, user.password);
+    if (!validation) {
+      let errors: string[] = [];
+      errors.push('Credenciales incorrectas (contraseña)');
+      throw new UnauthorizedException(errors);
+    }
+
+    return user;
   }
 
   findAll() {
