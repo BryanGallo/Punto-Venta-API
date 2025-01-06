@@ -1,11 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class AuthService {
-  create(createUserDto: CreateUserDto) {
-    return createUserDto;
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+
+  async create(createUserDto: CreateUserDto) {
+    try {
+      const user = await this.userRepository.create(createUserDto);
+      await this.userRepository.save(user);
+      return user;
+    } catch (error) {
+      this.handleDBErrors(error);
+    }
   }
 
   findAll() {
@@ -22,5 +35,12 @@ export class AuthService {
 
   remove(id: number) {
     return `This action removes a #${id} auth`;
+  }
+
+  private handleDBErrors(error: any): never {
+    if (error.code === '23505') {
+      throw new BadRequestException(error.detail);
+    }
+    throw new InternalServerErrorException('Error revisa los logs');
   }
 }
