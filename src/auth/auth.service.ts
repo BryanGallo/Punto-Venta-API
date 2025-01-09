@@ -4,18 +4,23 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { comparePassword, hashPassword } from 'src/common/utils/auth.util';
+import { getJwtToken } from 'src/common/utils/jwt.util';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './entities/user.entity';
-import { comparePassword, hashPassword } from 'src/common/utils/auth.util';
 import { LoginUserDto } from './dto/login-user.dto';
+import { User } from './entities/user.entity';
+import { JwtPayload } from './interfaces/jwt-payload.interface.';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -59,24 +64,22 @@ export class AuthService {
       throw new UnauthorizedException(errors);
     }
 
-    return user;
+    //* usando la funcion interna de este servicio private getJwtToken
+    return { ...user, token: this.getJwtToken({ email: user.email }) };
+
+    //? En caso de que necesitemos que la funcion getJwtToken se utilice en otros lados esta creada en la capeta "util" el archivo jwt.util como ejemplo
+    // return {
+    //   ...user,
+    //   token: getJwtToken({ email: user.email }, this.jwtService),
+    // };
+
+    
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  // update(id: number, updateAuthDto: UpdateAuthDto) {
-  //   return `This action updates a #${id} auth`;
-  // }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
+  private getJwtToken = (payload: JwtPayload) => {
+    const token = this.jwtService.sign(payload);
+    return token;
+  };
 
   private handleDBErrors(error: any): never {
     if (error.code === '23505') {
