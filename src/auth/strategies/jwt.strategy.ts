@@ -23,7 +23,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtPayload): Promise<User> {
     const { id } = payload;
 
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      select: { id: true, email: true, roles: true, isActive: true },
+      where: { id },
+    });
 
     if (!user) {
       let errors: string[] = [];
@@ -33,7 +36,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     if (!user.isActive) {
       let errors: string[] = [];
-      errors.push('El usuario no esta inactivo');
+      errors.push('El usuario no esta activo');
       throw new UnauthorizedException(errors);
     }
 
