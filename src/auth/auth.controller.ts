@@ -3,9 +3,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { request } from 'http';
-import { GetUser } from './decorator/get-user.decorator';
+import { IncomingHttpHeaders, request } from 'http';
 import { User } from './entities/user.entity';
+import { GetUser, RawHeaders } from './decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -21,6 +21,7 @@ export class AuthController {
     return this.authService.login(loginUserDto);
   }
 
+  //* Esta ruta privada es de ejemplo con diferentes caso de uso para futuras referencia
   @Get('private')
   @UseGuards(AuthGuard())
   testingPrivateRoute(
@@ -28,15 +29,18 @@ export class AuthController {
     // @Req() request: Express.Request
     //? Con decorador personalizado
     @GetUser() user: User,
+    @GetUser('email') email: string,
+    @RawHeaders() rawHeaders: IncomingHttpHeaders,
   ) {
     //?
     // const { user } = request;
-    console.log(user);
 
     return {
       ok: true,
       message: 'Hola Mundo Private',
       user,
+      email,
+      rawHeaders,
     };
   }
 }
