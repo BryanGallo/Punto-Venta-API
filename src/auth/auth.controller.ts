@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  SetMetadata,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -6,6 +14,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { IncomingHttpHeaders, request } from 'http';
 import { User } from './entities/user.entity';
 import { GetUser, RawHeaders } from './decorator';
+import { UserRoleGuard } from './guards/user-role/user-role.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -42,5 +51,13 @@ export class AuthController {
       email,
       rawHeaders,
     };
+  }
+
+  //* Vamos validar roles - metodo generico usando guards
+  @Get('private2')
+  @SetMetadata('roles', ['super-admin', 'admin'])
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  private2(@GetUser() user: User) {
+    return { user };
   }
 }
