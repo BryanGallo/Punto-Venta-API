@@ -1,6 +1,13 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { use } from 'passport';
 import { Observable } from 'rxjs';
+import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class UserRoleGuard implements CanActivate {
@@ -15,8 +22,20 @@ export class UserRoleGuard implements CanActivate {
       'roles',
       context.getHandler(),
     );
+    //?Obteniendo el usuario del contexto general
+    const req = context.switchToHttp().getRequest();
+    const user = req.user as User;
 
+    if (!user) {
+      throw new BadRequestException('Usuario no encontrado');
+    }
 
-    return true;
+    for (const role of user.roles) {
+      if (validRoles.includes(role)) return true;
+    }
+
+    throw new BadRequestException(
+      `El usuario ${user.name} no tiene un rol autorizado`,
+    );
   }
 }
