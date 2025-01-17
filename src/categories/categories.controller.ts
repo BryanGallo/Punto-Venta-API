@@ -40,20 +40,20 @@ export class CategoriesController {
 
   //*Creando nuestro propio pipe para reutilizarlo
   @Get(':id')
-  findOne(@Param('id', IdValidationPipe) id: number) {
-    return this.categoriesService.findOne(id);
+  findOne(@Param('id', IdValidationPipe) id: string) {
+    return this.categoriesService.findOne(+id);
   }
 
   @Patch(':id')
   update(
-    @Param('id', IdValidationPipe) id: number,
+    @Param('id', IdValidationPipe) id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.categoriesService.update(id, updateCategoryDto);
+    return this.categoriesService.update(+id, updateCategoryDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', IdValidationPipe) id: number) {
-    return this.categoriesService.remove(id);
+  remove(@Param('id', IdValidationPipe) id: string) {
+    return this.categoriesService.remove(+id);
   }
 }
