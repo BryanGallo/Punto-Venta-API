@@ -30,7 +30,7 @@ export class AuthController {
     return await this.authService.login(loginUserDto);
   }
 
-  //* Esta ruta privada es de ejemplo con diferentes caso de uso para futuras referencia
+  //* Esta ruta privada es de ejemplo con diferentes caso de uso para futuras referencia - Solo valida si esta autenticado, autorizacion mas abajo
   @Get('private')
   @UseGuards(AuthGuard())
   testingPrivateRoute(
@@ -53,11 +53,22 @@ export class AuthController {
     };
   }
 
-  //* Vamos validar roles - metodo generico usando guards
+  //* Vamos validar Autorizacion por roles - metodo generico usando guards
+  //? Riegos error humano al escribir los roles o cambio de nombres
+  // @Get('private2')
+  // @SetMetadata('roles', ['super-admin', 'admin'])
+  // @UseGuards(AuthGuard(), UserRoleGuard)
+  // private2(@GetUser() user: User) {
+  //   return { user };
+  // }
+
+  //* Metodo Con custom decorator
   @Get('private2')
-  @SetMetadata('roles', ['super-admin', 'admin'])
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  private2(@GetUser() user: User) {
-    return { user };
+  
+  @UseGuards(AuthGuard())
+  async private2() {
+    return {
+      msg: 'Todo bien',
+    };
   }
 }
