@@ -3,18 +3,19 @@ import {
   Controller,
   Get,
   Post,
-  Req,
   SetMetadata,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { IncomingHttpHeaders } from 'http';
 import { AuthService } from './auth.service';
+import { GetUser, RawHeaders } from './decorator';
+import { RoleProtected } from './decorator/role-protected.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { IncomingHttpHeaders, request } from 'http';
 import { User } from './entities/user.entity';
-import { GetUser, RawHeaders } from './decorator';
 import { UserRoleGuard } from './guards/user-role/user-role.guard';
+import { ValidRoles } from './interfaces/valid-roles.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -55,20 +56,21 @@ export class AuthController {
 
   //* Vamos validar Autorizacion por roles - metodo generico usando guards
   //? Riegos error humano al escribir los roles o cambio de nombres
-  // @Get('private2')
-  // @SetMetadata('roles', ['super-admin', 'admin'])
-  // @UseGuards(AuthGuard(), UserRoleGuard)
-  // private2(@GetUser() user: User) {
-  //   return { user };
-  // }
+  @Get('private2')
+  @SetMetadata('roles', ['super-admin', 'admin'])
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  private2(@GetUser() user: User) {
+    return { user };
+  }
 
   //* Metodo Con custom decorator
-  @Get('private2')
-  
-  @UseGuards(AuthGuard())
-  async private2() {
+  @Get('private3')
+  @RoleProtected(ValidRoles.superAdmin, ValidRoles.admin)
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  async private3(@GetUser() user: User) {
     return {
       msg: 'Todo bien',
+      user,
     };
   }
 }
