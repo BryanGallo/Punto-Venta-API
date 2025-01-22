@@ -16,6 +16,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './entities/user.entity';
 import { UserRoleGuard } from './guards/user-role/user-role.guard';
 import { ValidRoles } from './interfaces/valid-roles.enum';
+import { Auth } from './decorator/auth.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -69,7 +70,15 @@ export class AuthController {
   @UseGuards(AuthGuard(), UserRoleGuard)
   async private3(@GetUser() user: User) {
     return {
-      msg: 'Todo bien',
+      user,
+    };
+  }
+
+  //* Usando Composición de decoradores
+  @Get('private4')
+  @Auth(ValidRoles.superAdmin, ValidRoles.admin)
+  async private4(@GetUser() user: User) {
+    return {
       user,
     };
   }

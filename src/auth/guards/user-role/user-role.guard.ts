@@ -23,6 +23,9 @@ export class UserRoleGuard implements CanActivate {
       META_ROLES,
       context.getHandler(),
     );
+
+    if (validRoles.length === 0) return true;
+
     //?Obteniendo el usuario del contexto general
     const req = context.switchToHttp().getRequest();
     const user = req.user as User;
