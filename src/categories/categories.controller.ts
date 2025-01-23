@@ -7,12 +7,15 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { Auth } from 'src/auth/decorator/auth.decorator';
+import { ValidRoles } from 'src/auth/interfaces/valid-roles.enum';
 import { IdValidationPipe } from '../common/pipes/id-validation/id-validation.pipe';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('categories')
+//@Auth(ValidRoles.admin) //? si queremos que todas la rutas requieran autenticacion y de ser necesario autorizacion
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
