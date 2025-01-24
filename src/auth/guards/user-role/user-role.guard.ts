@@ -35,7 +35,7 @@ export class UserRoleGuard implements CanActivate {
     }
 
     for (const role of user.roles) {
-      if (validRoles.includes(role)) return true;
+      if (validRoles.includes(role.name)) return true;
     }
 
     throw new BadRequestException(
