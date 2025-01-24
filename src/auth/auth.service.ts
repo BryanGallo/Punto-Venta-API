@@ -8,27 +8,40 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { comparePassword, hashPassword } from 'src/common/utils/auth.util';
 import { getJwtToken } from 'src/common/utils/jwt.util';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './entities/user.entity';
 import { JwtPayload } from './interfaces/jwt-payload.interface.';
+import { Role } from 'src/roles/entities/role.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>,
 
     private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const { password, ...userData } = createUserDto;
+      const { password, roles: roleIds, ...userData } = createUserDto;
+
+      const roles = await this.roleRepository.find({
+        where: {
+          id: In(roleIds),
+        },
+        order: {
+          id: 'ASC',
+        },
+      });
 
       const user = await this.userRepository.create({
         ...userData,
+        roles: roles,
         password: await hashPassword(password),
       });
 
