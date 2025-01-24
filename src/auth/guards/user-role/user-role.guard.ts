@@ -24,6 +24,10 @@ export class UserRoleGuard implements CanActivate {
       context.getHandler(),
     );
 
+    if (!validRoles) {
+      return true; // Si no hay roles definidos, deja pasar
+    }
+
     if (validRoles.length === 0) return true;
 
     //?Obteniendo el usuario del contexto general
