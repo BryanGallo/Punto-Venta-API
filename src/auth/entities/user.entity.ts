@@ -1,3 +1,4 @@
+import { Product } from 'src/products/entities/product.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import {
   BeforeInsert,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -26,9 +28,12 @@ export class User {
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
-  @ManyToMany(()=> Role, (role) => role.users)
-  @JoinTable({name:"user_roles"})
+  @ManyToMany(() => Role, (role) => role.users)
+  @JoinTable({ name: 'user_roles' })
   roles: Role[];
+
+  @OneToMany(() => Product, (product) => product.user)
+  products: Product[];
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {
