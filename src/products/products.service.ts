@@ -14,7 +14,7 @@ export class ProductsService {
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
   ) {}
-  
+
   async create(createProductDto: CreateProductDto) {
     const category = await this.categoryRepository.findOneBy({
       id: createProductDto.categoryId,
@@ -38,6 +38,7 @@ export class ProductsService {
     const options: FindManyOptions<Product> = {
       relations: {
         category: true,
+        user: true,
       },
       order: {
         id: 'DESC',
