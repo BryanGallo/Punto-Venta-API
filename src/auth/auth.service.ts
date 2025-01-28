@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -27,7 +28,6 @@ export class AuthService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    try {
       const { password, roles: roleIds, ...userData } = createUserDto;
 
       const roles = await this.roleRepository.find({
@@ -38,6 +38,13 @@ export class AuthService {
           id: 'ASC',
         },
       });
+      console.log(roles.length === 0);
+
+      if (roles.length === 0) {
+        let errors: string[] = [];
+        errors.push('Ningun rol asignado no existe');
+        throw new NotFoundException(errors);
+      }
 
       const user = await this.userRepository.create({
         ...userData,
@@ -51,9 +58,6 @@ export class AuthService {
 
       return user;
       // TODO: Retornar el JWT de acceso
-    } catch (error) {
-      this.handleDBErrors(error);
-    }
   }
 
   async login(loginUserDto: LoginUserDto) {
