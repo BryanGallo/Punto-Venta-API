@@ -28,36 +28,41 @@ export class AuthService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-      const { password, roles: roleIds, ...userData } = createUserDto;
+    const { password, roles: roleIds, ...userData } = createUserDto;
 
-      const roles = await this.roleRepository.find({
-        where: {
-          id: In(roleIds),
-        },
-        order: {
-          id: 'ASC',
-        },
-      });
-      console.log(roles.length === 0);
+    const roles = await this.roleRepository.find({
+      where: {
+        id: In(roleIds),
+      },
+      order: {
+        id: 'ASC',
+      },
+    });
 
-      if (roles.length === 0) {
-        let errors: string[] = [];
-        errors.push('Ningun rol asignado no existe');
-        throw new NotFoundException(errors);
-      }
+    // Validamos que todos los IDs existen (longitud de resultados debe coincidir con roleIds)
+    let error: string = '';
+    if (roles.length !== roleIds.length) {
+      error = null; // Si falta al menos un ID, devolvemos null
+    }
 
-      const user = await this.userRepository.create({
-        ...userData,
-        roles: roles,
-        password: await hashPassword(password),
-      });
+    if (error === null) {
+      let errors: string[] = [];
+      errors.push('Al menos un rol asignado no existe');
+      throw new NotFoundException(errors);
+    }
 
-      await this.userRepository.save(user);
-      //* Operacion nativa de los objeto para eliminar una propiedad
-      delete user.password;
+    const user = await this.userRepository.create({
+      ...userData,
+      roles: roles,
+      password: await hashPassword(password),
+    });
 
-      return user;
-      // TODO: Retornar el JWT de acceso
+    await this.userRepository.save(user);
+    //* Operacion nativa de los objeto para eliminar una propiedad
+    delete user.password;
+
+    return user;
+    // TODO: Retornar el JWT de acceso
   }
 
   async login(loginUserDto: LoginUserDto) {
