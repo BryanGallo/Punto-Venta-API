@@ -5,6 +5,7 @@ import { FindManyOptions, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
+import { User } from 'src/auth/entities/user.entity';
 
 @Injectable()
 export class ProductsService {
@@ -15,7 +16,7 @@ export class ProductsService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, user: User) {
     const category = await this.categoryRepository.findOneBy({
       id: createProductDto.categoryId,
     });
@@ -29,6 +30,7 @@ export class ProductsService {
     return this.productRepository.save({
       ...createProductDto,
       category,
+      user
     });
   }
 
