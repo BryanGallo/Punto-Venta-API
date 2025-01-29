@@ -12,10 +12,10 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { GetProduct } from './dto/get-product.dto';
-import { IdValidationPipe } from 'src/common/pipes/id-validation/id-validation.pipe';
-import { GetUser } from 'src/auth/decorator';
-import { User } from 'src/auth/entities/user.entity';
-import { Auth } from 'src/auth/decorator/auth.decorator';
+import { IdValidationPipe } from '../common/pipes/id-validation/id-validation.pipe';
+import { GetUser } from '../auth/decorator';
+import { User } from '../auth/entities/user.entity';
+import { Auth } from '../auth/decorator/auth.decorator';
 
 @Controller('products')
 export class ProductsController {

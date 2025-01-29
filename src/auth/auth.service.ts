@@ -7,14 +7,14 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { comparePassword, hashPassword } from 'src/common/utils/auth.util';
-import { getJwtToken } from 'src/common/utils/jwt.util';
+import { comparePassword, hashPassword } from '../common/utils/auth.util';
+import { getJwtToken } from '../common/utils/jwt.util';
 import { In, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { User } from './entities/user.entity';
 import { JwtPayload } from './interfaces/jwt-payload.interface.';
-import { Role } from 'src/roles/entities/role.entity';
+import { Role } from '../roles/entities/role.entity';
 
 @Injectable()
 export class AuthService {

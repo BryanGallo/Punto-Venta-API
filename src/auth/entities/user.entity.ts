@@ -1,5 +1,5 @@
-import { Product } from 'src/products/entities/product.entity';
-import { Role } from 'src/roles/entities/role.entity';
+import { Product } from '../../products/entities/product.entity';
+import { Role } from '../../roles/entities/role.entity';
 import {
   BeforeInsert,
   BeforeUpdate,

@@ -7,8 +7,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Auth } from 'src/auth/decorator/auth.decorator';
-import { ValidRoles } from 'src/auth/interfaces/valid-roles.enum';
+import { Auth } from '../auth/decorator/auth.decorator';
+import { ValidRoles } from '../auth/interfaces/valid-roles.enum';
 import { IdValidationPipe } from '../common/pipes/id-validation/id-validation.pipe';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';

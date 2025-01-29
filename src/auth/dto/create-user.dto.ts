@@ -7,7 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { Role } from 'src/roles/entities/role.entity';
+import { Role } from '../../roles/entities/role.entity';
 
 export class CreateUserDto {
   @IsString({ message: 'Nombre no valido' })
@@ -31,6 +31,6 @@ export class CreateUserDto {
   })
   password: string;
 
-  @IsArray({message:"Rol no válido"})
+  @IsArray({ message: 'Rol no válido' })
   roles?: Role[];
 }

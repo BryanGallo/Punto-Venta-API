@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from 'src/auth/interfaces/jwt-payload.interface.';
+import { JwtPayload } from '../../auth/interfaces/jwt-payload.interface.';
 
 /**
  * Función para generar un token JWT
