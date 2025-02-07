@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from 'src/categories/entities/category.entity';
-import { Product } from 'src/products/entities/product.entity';
+import { Category } from '../categories/entities/category.entity';
+import { Product } from '../products/entities/product.entity';
 import { Repository } from 'typeorm';
 import { categories } from './data/categories';
-import { Role } from 'src/roles/entities/role.entity';
+import { Role } from '../roles/entities/role.entity';
 import { roles } from './data/roles';
 
 @Injectable()
@@ -18,7 +18,11 @@ export class SeederService {
     private readonly productReporitory: Repository<Product>,
   ) {}
   async seed() {
-    console.log('desde seed');
+    // Vaciando tablas
+    await this.roleReporitory.delete({});
+    await this.categoryReporitory.delete({});
+
+    // Insertando tablas individuales
     await this.roleReporitory.create(roles);
     await this.categoryReporitory.create(categories);
   }
