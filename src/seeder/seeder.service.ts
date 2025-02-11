@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from '../categories/entities/category.entity';
 import { Product } from '../products/entities/product.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { categories } from './data/categories';
 import { products } from './data/products';
 import { Role } from '../roles/entities/role.entity';
@@ -34,6 +34,17 @@ export class SeederService {
     await this.categoryRepository.save(categories);
     await this.rolRepository.save(roles);
     await this.userRepository.save(users);
+
+    // Relacionar roles y usuarios
+    for await (const seedUser of users) {
+      const userRoles = await this.rolRepository.find({
+        where: { id: In(seedUser.roleId) },
+      });
+
+      const user = await this.userRepository.create(seedUser);
+      user.roles = userRoles; // Asignar las entidades de roles al usuario
+      await this.userRepository.save(user);
+    }
 
     for await (const seedProduct of products) {
       const category = await this.categoryRepository.findOneBy({
