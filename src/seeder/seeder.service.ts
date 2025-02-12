@@ -9,6 +9,7 @@ import { Role } from '../roles/entities/role.entity';
 import { User } from '../auth/entities/user.entity';
 import { roles } from './data/roles';
 import { users } from './data/users';
+import { hashPassword } from '../common/utils/auth.util';
 
 @Injectable()
 export class SeederService {
@@ -42,6 +43,7 @@ export class SeederService {
       });
 
       const user = await this.userRepository.create(seedUser);
+      user.password = await hashPassword(user.password);
       user.roles = userRoles; // Asignar las entidades de roles al usuario
       await this.userRepository.save(user);
     }
