@@ -1,6 +1,13 @@
+import { TransactionContents } from 'src/transactions/entities/transaction.entity';
 import { User } from '../../auth/entities/user.entity';
 import { Category } from '../../categories/entities/category.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Product {
@@ -32,4 +39,10 @@ export class Product {
 
   @ManyToOne(() => User, (user) => user.products)
   user: User;
+
+  @OneToMany(
+    () => TransactionContents,
+    (transactionContents) => transactionContents.product,
+  )
+  transactionContents: TransactionContents[];
 }

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Product } from '../../products/entities/product.entity';
 
 @Entity()
 export class Transaction {
@@ -17,4 +24,31 @@ export class Transaction {
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   transactionDate: Date;
+
+  @OneToMany(
+    () => TransactionContents,
+    (transactionContent) => transactionContent.transaction,
+  )
+  transactionContents: TransactionContents[];
+}
+
+@Entity()
+export class TransactionContents {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ type: 'int' })
+  quantity: number;
+
+  @Column({ type: 'decimal' })
+  price: number;
+
+  @ManyToOne(
+    () => Transaction,
+    (transaction) => transaction.transactionContents,
+  )
+  transaction: Transaction;
+
+  @ManyToOne(() => Product, (product) => product.transactionContents)
+  product: Product;
 }
