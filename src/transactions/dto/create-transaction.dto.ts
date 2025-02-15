@@ -21,10 +21,6 @@ export class CreateTransactionDto {
 }
 
 export class TransactionContentsDto {
-  @IsNotEmpty({ message: 'El ID del producto no puede estar vacío' })
-  @IsInt({ message: 'Id no válido' })
-  id: number;
-
   @IsNotEmpty({ message: 'Cantidad no puede estar vacía' })
   @IsNumber({}, { message: 'Cantidad no válida' })
   quantity: number;
