@@ -28,6 +28,7 @@ export class Transaction {
   @OneToMany(
     () => TransactionContents,
     (transactionContent) => transactionContent.transaction,
+    { cascade: true },
   )
   transactionContents: TransactionContents[];
 }

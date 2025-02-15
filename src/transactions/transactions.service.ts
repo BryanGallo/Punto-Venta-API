@@ -1,11 +1,47 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import {
+  Transaction,
+  TransactionContents,
+} from './entities/transaction.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class TransactionsService {
-  create(createTransactionDto: CreateTransactionDto) {
-    return 'This action adds a new transaction';
+  constructor(
+    @InjectRepository(Transaction)
+    private readonly transactionRepository: Repository<Transaction>,
+    @InjectRepository(TransactionContents)
+    private readonly transactionContentsRepository: Repository<TransactionContents>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
+  ) {}
+  async create(createTransactionDto: CreateTransactionDto) {
+    const { total, transactionContents } = createTransactionDto;
+
+    const transaction = await this.transactionRepository.save({
+      total: total,
+    });
+
+    for await (const content of transactionContents) {
+      const product = await this.productRepository.findOneBy({
+        id: content.productId,
+      });
+      const transactionContent =
+        await this.transactionContentsRepository.create({
+          ...content,
+        });
+      transactionContent.transaction = transaction;
+      transactionContent.product = product;
+      await this.transactionContentsRepository.save(transactionContent);
+    }
+
+    return {
+      msg: 'Venta almacenada Correctamenta',
+    };
   }
 
   findAll() {
