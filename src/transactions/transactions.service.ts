@@ -35,6 +35,10 @@ export class TransactionsService {
           `Producto con ID ${content.productId} no encontrado`,
         );
       }
+
+      product.inventory -= content.quantity;
+      await this.productRepository.save(product);
+
       const transactionContent =
         await this.transactionContentsRepository.create({
           ...content,
