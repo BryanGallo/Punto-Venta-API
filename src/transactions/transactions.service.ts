@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import {
@@ -30,6 +30,11 @@ export class TransactionsService {
       const product = await this.productRepository.findOneBy({
         id: content.productId,
       });
+      if (!product) {
+        throw new NotFoundException(
+          `Producto con ID ${content.productId} no encontrado`,
+        );
+      }
       const transactionContent =
         await this.transactionContentsRepository.create({
           ...content,
