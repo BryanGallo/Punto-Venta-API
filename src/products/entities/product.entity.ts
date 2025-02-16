@@ -1,4 +1,4 @@
-import { TransactionContents } from 'src/transactions/entities/transaction.entity';
+import { TransactionContents } from '../../transactions/entities/transaction.entity';
 import { User } from '../../auth/entities/user.entity';
 import { Category } from '../../categories/entities/category.entity';
 import {
