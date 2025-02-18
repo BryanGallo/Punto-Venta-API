@@ -37,6 +37,7 @@ export class TransactionsService {
       }
 
       product.inventory -= content.quantity;
+      //haciendo persistente el cambio para no usar cascade 
       await this.productRepository.save(product);
 
       const transactionContent =
