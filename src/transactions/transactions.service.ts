@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import {
@@ -22,36 +26,42 @@ export class TransactionsService {
   async create(createTransactionDto: CreateTransactionDto) {
     const { total, transactionContents } = createTransactionDto;
 
-    const transaction = await this.transactionRepository.save({
-      total: total,
-    });
-
-    for await (const content of transactionContents) {
-      const product = await this.productRepository.findOneBy({
-        id: content.productId,
-      });
-      if (!product) {
-        throw new NotFoundException(
-          `Producto con ID ${content.productId} no encontrado`,
+    await this.productRepository.manager.transaction(
+      async (transactionEntityManager) => {
+        const transaction = await transactionEntityManager.save(
+          this.transactionRepository.create({ total }),
         );
-      }
 
-      if(content.quantity > product.inventory){
-        throw new BadRequestException(`El articulo ${product.name} excede la cantidad disponible`)
-      }
+        for await (const content of transactionContents) {
+          const product = await transactionEntityManager.findOneBy(Product, {
+            id: content.productId,
+          });
+          if (!product) {
+            throw new NotFoundException(
+              `Producto con ID ${content.productId} no encontrado`,
+            );
+          }
 
-      product.inventory -= content.quantity;
-      //haciendo persistente el cambio para no usar cascade 
-      await this.productRepository.save(product);
+          if (content.quantity > product.inventory) {
+            throw new BadRequestException(
+              `El articulo ${product.name} excede la cantidad disponible`,
+            );
+          }
 
-      const transactionContent =
-        await this.transactionContentsRepository.create({
-          ...content,
-        });
-      transactionContent.transaction = transaction;
-      transactionContent.product = product;
-      await this.transactionContentsRepository.save(transactionContent);
-    }
+          product.inventory -= content.quantity;
+          //haciendo persistente el cambio para no usar cascade
+          await transactionEntityManager.save(product);
+
+          const transactionContent =
+            await this.transactionContentsRepository.create({
+              ...content,
+            });
+          transactionContent.transaction = transaction;
+          transactionContent.product = product;
+          await transactionEntityManager.save(transactionContent);
+        }
+      },
+    );
 
     return {
       msg: 'Venta almacenada Correctamenta',
