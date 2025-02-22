@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import {
@@ -34,6 +34,10 @@ export class TransactionsService {
         throw new NotFoundException(
           `Producto con ID ${content.productId} no encontrado`,
         );
+      }
+
+      if(content.quantity > product.inventory){
+        throw new BadRequestException(`El articulo ${product.name} excede la cantidad disponible`)
       }
 
       product.inventory -= content.quantity;
