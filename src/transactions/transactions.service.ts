@@ -36,16 +36,18 @@ export class TransactionsService {
           const product = await transactionEntityManager.findOneBy(Product, {
             id: content.productId,
           });
+
+          let errors: string[] = [];
           if (!product) {
-            throw new NotFoundException(
-              `Producto con ID ${content.productId} no encontrado`,
-            );
+            errors.push(`Producto con ID ${content.productId} no encontrado`);
+            throw new NotFoundException(errors);
           }
 
           if (content.quantity > product.inventory) {
-            throw new BadRequestException(
+            errors.push(
               `El articulo ${product.name} excede la cantidad disponible`,
             );
+            throw new BadRequestException(errors);
           }
 
           product.inventory -= content.quantity;
