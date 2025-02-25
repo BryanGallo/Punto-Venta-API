@@ -24,10 +24,15 @@ export class TransactionsService {
     private readonly productRepository: Repository<Product>,
   ) {}
   async create(createTransactionDto: CreateTransactionDto) {
-    const { total, transactionContents } = createTransactionDto;
+    const { transactionContents } = createTransactionDto;
 
     await this.productRepository.manager.transaction(
       async (transactionEntityManager) => {
+        const total = createTransactionDto.transactionContents.reduce(
+          (total, item) => total + item.quantity * item.price,
+          0,
+        );
+
         const transaction = await transactionEntityManager.save(
           this.transactionRepository.create({ total }),
         );
