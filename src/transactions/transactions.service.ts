@@ -10,8 +10,9 @@ import {
   TransactionContents,
 } from './entities/transaction.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
+import { products } from '../seeder/data/products';
 
 @Injectable()
 export class TransactionsService {
@@ -76,7 +77,38 @@ export class TransactionsService {
   }
 
   findAll() {
-    return `This action returns all transactions`;
+    const options: FindManyOptions<Transaction> = {
+      relations: {
+        transactionContents: {
+          product: {
+            category: true,
+          },
+        },
+      },
+      order: {
+        transactionDate: 'DESC',
+      },
+      select: {
+        transactionContents: {
+          quantity: true,
+          price: true,
+          product: {
+            name: true,
+            image: true,
+            price: true,
+            category: {
+              name: true,
+            },
+          },
+        },
+      },
+    };
+
+    const transactions = this.transactionRepository.find(
+      // relations: ['transactionContents'], //?Sintaxis clásica para relacion
+      options,
+    );
+    return transactions;
   }
 
   findOne(id: number) {
