@@ -10,9 +10,10 @@ import {
   TransactionContents,
 } from './entities/transaction.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
+import { Between, FindManyOptions, Repository } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
 import { products } from '../seeder/data/products';
+import { endOfDay, isValid, parseISO, startOfDay } from 'date-fns';
 
 @Injectable()
 export class TransactionsService {
@@ -76,7 +77,7 @@ export class TransactionsService {
     };
   }
 
-  findAll() {
+  findAll(transactionDate?: string) {
     const options: FindManyOptions<Transaction> = {
       relations: {
         transactionContents: {
@@ -103,6 +104,21 @@ export class TransactionsService {
         },
       },
     };
+    if (transactionDate) {
+      const date = parseISO(transactionDate);
+      console.log(date);
+      if (!isValid(date)) {
+        throw new BadRequestException('Fecha no valida');
+      }
+
+      //?Obteniendo inicio y final de fechas
+      const startDate = startOfDay(date);
+      const endDate = endOfDay(date);
+
+      options.where = {
+        transactionDate: Between(startDate,endDate),
+      };
+    }
 
     const transactions = this.transactionRepository.find(
       // relations: ['transactionContents'], //?Sintaxis clásica para relacion
