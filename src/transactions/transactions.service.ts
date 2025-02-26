@@ -77,7 +77,7 @@ export class TransactionsService {
     };
   }
 
-  findAll(transactionDate?: string) {
+  async findAll(transactionDate?: string) {
     const options: FindManyOptions<Transaction> = {
       relations: {
         transactionContents: {
@@ -116,19 +116,34 @@ export class TransactionsService {
       const endDate = endOfDay(date);
 
       options.where = {
-        transactionDate: Between(startDate,endDate),
+        transactionDate: Between(startDate, endDate),
       };
     }
 
-    const transactions = this.transactionRepository.find(
+    const transactions = await this.transactionRepository.find(
       // relations: ['transactionContents'], //?Sintaxis clásica para relacion
       options,
     );
     return transactions;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} transaction`;
+  async findOne(id: number) {
+    const transaction = await this.transactionRepository.findOne({
+      relations: {
+        transactionContents: true,
+      },
+      where: {
+        id,
+      },
+    });
+
+    if (!transaction) {
+      let errors: string[] = [];
+      errors.push(`La transaccion número ${id} no encontrado`);
+      throw new NotFoundException(errors);
+    }
+
+    return transaction;
   }
 
   update(id: number, updateTransactionDto: UpdateTransactionDto) {
