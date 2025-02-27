@@ -1,11 +1,11 @@
 export const categories = [
   {
-    name: 'Sudaderas',
+    name: 'Crepes',
   },
   {
-    name: 'Tenis',
+    name: 'Waffles',
   },
   {
-    name: 'Lentes',
+    name: 'Milkshake',
   },
 ];

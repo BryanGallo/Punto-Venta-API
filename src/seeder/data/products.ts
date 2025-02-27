@@ -1,6 +1,6 @@
 export const products = [
   {
-    name: 'Sudadera Gris',
+    name: 'Crepes Clásicos',
     image: '1.jpg',
     price: 49,
     inventory: 5,
@@ -8,7 +8,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Sudadera Naranja Hombre',
+    name: 'Crepes Naranja',
     image: '2.jpg',
     price: 29,
     inventory: 3,
@@ -16,7 +16,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Sudadera Azul',
+    name: 'Crepes Azul',
     image: '3.jpg',
     price: 49,
     inventory: 8,
@@ -24,7 +24,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Sudadera Blanca',
+    name: 'Crepes Blancos',
     image: '4.jpg',
     price: 29,
     inventory: 10,
@@ -32,7 +32,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Sudadera Negra / Naranja',
+    name: 'Crepes Negros con Naranja',
     image: '5.jpg',
     price: 49,
     inventory: 10,
@@ -40,7 +40,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Sudadera Negra / Rojo',
+    name: 'Crepes Negros con Rojo',
     image: '6.jpg',
     price: 39,
     inventory: 10,
@@ -48,7 +48,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Sudadera Rojo',
+    name: 'Crepes Rojos',
     image: '7.jpg',
     price: 49,
     inventory: 10,
@@ -56,7 +56,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Sudadera Blanco / Azul',
+    name: 'Crepes Blanco con Azul',
     image: '8.jpg',
     price: 49,
     inventory: 10,
@@ -64,7 +64,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Sudadera Amarillo Mujer',
+    name: 'Crepes Amarillos',
     image: '9.jpg',
     price: 39,
     inventory: 10,
@@ -72,7 +72,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Mujer',
+    name: 'Waffles Mujer',
     image: '10.jpg',
     price: 59,
     inventory: 10,
@@ -80,7 +80,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Zapato Casual',
+    name: 'Waffles Casuales',
     image: '11.jpg',
     price: 49,
     inventory: 10,
@@ -88,7 +88,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Mujer Rosa',
+    name: 'Waffles Rosa Mujer',
     image: '12.jpg',
     price: 49,
     inventory: 10,
@@ -96,7 +96,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Gris',
+    name: 'Waffles Grises',
     image: '13.jpg',
     price: 79,
     inventory: 10,
@@ -104,7 +104,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Rojo / Negro',
+    name: 'Waffles Rojo y Negro',
     image: '14.jpg',
     price: 69,
     inventory: 10,
@@ -112,7 +112,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Mujer Deporte',
+    name: 'Waffles Deportivos Mujer',
     image: '15.jpg',
     price: 69,
     inventory: 10,
@@ -120,7 +120,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Azul Hombre',
+    name: 'Waffles Azules Hombre',
     image: '16.jpg',
     price: 69,
     inventory: 10,
@@ -128,7 +128,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Azul',
+    name: 'Waffles Azules',
     image: '17.jpg',
     price: 69,
     inventory: 10,
@@ -136,7 +136,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Casual Hombre',
+    name: 'Waffles Casuales Hombre',
     image: '18.jpg',
     price: 59,
     inventory: 10,
@@ -144,7 +144,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Casual Gris',
+    name: 'Waffles Casuales Grises',
     image: '19.jpg',
     price: 49,
     inventory: 10,
@@ -152,7 +152,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Bota Claros',
+    name: 'Waffles Botas Claras',
     image: '20.jpg',
     price: 59,
     inventory: 10,
@@ -160,7 +160,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Bota Negro',
+    name: 'Waffles Botas Negras',
     image: '21.jpg',
     price: 59,
     inventory: 10,
@@ -168,7 +168,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Bota Negro / Azul',
+    name: 'Waffles Botas Negro y Azul',
     image: '22.jpg',
     price: 59,
     inventory: 10,
@@ -176,7 +176,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Casual Negro',
+    name: 'Waffles Casuales Negros',
     image: '23.jpg',
     price: 49,
     inventory: 10,
@@ -184,7 +184,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Casual Gris / Negro',
+    name: 'Waffles Casuales Gris y Negro',
     image: '24.jpg',
     price: 49,
     inventory: 10,
@@ -192,7 +192,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Hombre Negro',
+    name: 'Waffles Hombre Negro',
     image: '25.jpg',
     price: 59,
     inventory: 10,
@@ -200,7 +200,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Hombre Gris',
+    name: 'Waffles Hombre Gris',
     image: '26.jpg',
     price: 69,
     inventory: 10,
@@ -208,7 +208,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Zapato Gris Hombre',
+    name: 'Waffles Grises Hombre',
     image: '27.jpg',
     price: 69,
     inventory: 10,
@@ -216,7 +216,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Gris / Rojo',
+    name: 'Waffles Gris y Rojo',
     image: '28.jpg',
     price: 49,
     inventory: 10,
@@ -224,7 +224,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Tenis Negro Mujer',
+    name: 'Waffles Negros Mujer',
     image: '29.jpg',
     price: 59,
     inventory: 10,
@@ -232,7 +232,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Azul Casual',
+    name: 'Waffles Azules Casuales',
     image: '30.jpg',
     price: 69,
     inventory: 10,
@@ -240,7 +240,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Deporte Gris',
+    name: 'Waffles Deportivos Grises',
     image: '31.jpg',
     price: 69,
     inventory: 10,
@@ -248,7 +248,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Verde Casual',
+    name: 'Waffles Verdes Casuales',
     image: '32.jpg',
     price: 59,
     inventory: 10,
@@ -256,7 +256,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Tenis Rojo Casual',
+    name: 'Waffles Rojos Casuales',
     image: '33.jpg',
     price: 59,
     inventory: 10,
@@ -264,7 +264,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Lentes Sol - Gris',
+    name: 'Milkshake Gris',
     image: '34.jpg',
     price: 39,
     inventory: 10,
@@ -272,7 +272,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Lentes Sol - Negro',
+    name: 'Milkshake Negro',
     image: '35.jpg',
     price: 39,
     inventory: 10,
@@ -280,7 +280,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Lentes Oscuros',
+    name: 'Milkshake Oscuro',
     image: '36.jpg',
     price: 29,
     inventory: 10,
@@ -288,7 +288,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Lentes para Sol',
+    name: 'Milkshake para Sol',
     image: '37.jpg',
     price: 49,
     inventory: 10,
@@ -296,7 +296,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440000',
   },
   {
-    name: 'Lentes Sol acabado azul',
+    name: 'Milkshake Acabado Azul',
     image: '38.jpg',
     price: 39,
     inventory: 10,
@@ -304,7 +304,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Lentes Modernos Negros',
+    name: 'Milkshake Moderno Negro',
     image: '39.jpg',
     price: 39,
     inventory: 10,
@@ -312,7 +312,7 @@ export const products = [
     userId: '123e4567-e89b-12d3-a456-426655440001',
   },
   {
-    name: 'Lentes Clasicos',
+    name: 'Milkshake Clásico',
     image: '40.jpg',
     price: 39,
     inventory: 10,
