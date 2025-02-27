@@ -12,7 +12,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, FindManyOptions, Repository } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
-import { products } from '../seeder/data/products';
 import { endOfDay, isValid, parseISO, startOfDay } from 'date-fns';
 
 @Injectable()
@@ -150,7 +149,32 @@ export class TransactionsService {
     return `This action updates a #${id} transaction`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} transaction`;
+  async remove(id: number) {
+    const transactionContents = await this.transactionContentsRepository.find({
+      relations: {
+        product: true,
+      },
+      where: {
+        transaction: {
+          id,
+        },
+      },
+    });
+
+    const transaction = await this.findOne(id);
+
+    //* Restableciendo Stock de productos antes de eliminar las transacciones
+    for await (const content of transactionContents) {
+      const product = await this.productRepository.findOneBy({
+        id: content.product.id,
+      });
+      product.inventory += content.quantity;
+      await this.productRepository.save(product);
+    }
+
+    await this.transactionContentsRepository.remove(transactionContents);
+    await this.transactionRepository.remove(transaction);
+
+    return `La transaccion número #${id} fue eliminado`;
   }
 }
