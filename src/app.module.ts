@@ -9,6 +9,7 @@ import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   controllers: [AppController],
@@ -28,6 +29,7 @@ import { TransactionsModule } from './transactions/transactions.module';
     AuthModule,
     RolesModule,
     TransactionsModule,
+    ReportsModule,
   ],
 })
 export class AppModule {}
