@@ -12,7 +12,7 @@ export class ReportsController {
     @Body() createReportDto: CreateReportDto,
     @Res() response: Response,
   ) {
-    const docPdf = await this.reportsService.create(createReportDto);
+    const docPdf = await this.reportsService.create();
 
     response.setHeader('Content-Type', 'application/pdf')
     docPdf.pipe(response)

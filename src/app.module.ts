@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { ReportsModule } from './reports/reports.module';
+import { PrinterModule } from './printer/printer.module';
 
 @Module({
   controllers: [AppController],
@@ -30,6 +31,7 @@ import { ReportsModule } from './reports/reports.module';
     RolesModule,
     TransactionsModule,
     ReportsModule,
+    PrinterModule,
   ],
 })
 export class AppModule {}
