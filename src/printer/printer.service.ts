@@ -15,7 +15,7 @@ const fonts = {
 export class PrinterService {
   private printer = new PdfPrinter(fonts);
 
-  async createPdf(
+  async testPdf(
     docDefinition: TDocumentDefinitions,
     options: BufferOptions = {},
   ): Promise<PDFKit.PDFDocument> {

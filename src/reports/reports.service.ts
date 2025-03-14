@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import type { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { PrinterService } from 'src/printer/printer.service';
+import { getPdfContent } from './admin-reports/hello-world.report';
 
 @Injectable()
 export class ReportsService {
   constructor(private readonly printerService: PrinterService) {}
-  async create() {
-    const docDefinition: TDocumentDefinitions = {
-      content: ['Hola desde MakePdf'],
-    };
+  async testPdf(name: string) {
+    const docDefinition = getPdfContent({ name });
 
-    const doc = this.printerService.createPdf(docDefinition);
+    const doc = this.printerService.testPdf(docDefinition);
 
     return doc;
   }
