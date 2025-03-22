@@ -9,8 +9,8 @@ import { ProductsModule } from './products/products.module';
 import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { TransactionsModule } from './transactions/transactions.module';
-import { ReportsModule } from './reports/reports.module';
 import { PrinterModule } from './printer/printer.module';
+import { AdminReportsModule } from './reports/admin-reports/admin-reports.module';
 
 @Module({
   controllers: [AppController],
@@ -30,8 +30,8 @@ import { PrinterModule } from './printer/printer.module';
     AuthModule,
     RolesModule,
     TransactionsModule,
-    ReportsModule,
     PrinterModule,
+    AdminReportsModule
   ],
 })
 export class AppModule {}
