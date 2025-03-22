@@ -3,7 +3,7 @@
 </p>
 
 
-## BagoShop
+## Punto de venta API
 
 1. Clonar Proyecto
 2. ``npm install``
