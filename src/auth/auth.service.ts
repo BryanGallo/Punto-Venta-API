@@ -85,7 +85,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { id: true, email: true },
+      select: { id: true, email: true, password: true },
       relations: {
         roles: true,
       },
@@ -103,6 +103,8 @@ export class AuthService {
       errors.push('Credenciales incorrectas (contraseña)');
       throw new UnauthorizedException(errors);
     }
+
+    delete user.password;
 
     //* usando la funcion interna de este servicio private getJwtToken
     return { ...user, token: this.getJwtToken({ id: user.id }) };
