@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -30,6 +31,20 @@ export class AuthService {
   async create(createUserDto: CreateUserDto) {
     const { password, roles: roleIds, ...userData } = createUserDto;
 
+    const userExist = await this.userRepository.findOne({
+      where: {
+        email: userData.email,
+      },
+    });
+
+    let errors: string[] = [];
+    if (userExist) {
+      errors.push(
+        `El Usuario con el correo ${userData.email} ya se encuentra registrado`,
+      );
+      throw new ConflictException(errors);
+    }
+
     const roles = await this.roleRepository.find({
       where: {
         id: In(roleIds),
@@ -46,7 +61,6 @@ export class AuthService {
     }
 
     if (error === null) {
-      let errors: string[] = [];
       errors.push('Al menos un rol asignado no existe');
       throw new NotFoundException(errors);
     }
@@ -61,7 +75,8 @@ export class AuthService {
     //* Operacion nativa de los objeto para eliminar una propiedad
     delete user.password;
 
-    return user;
+    // return user;
+    return { message: `El usuario fue creado correctamente` };
     // TODO: Retornar el JWT de acceso
   }
 
