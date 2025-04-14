@@ -104,10 +104,8 @@ export class AuthService {
       throw new UnauthorizedException(errors);
     }
 
-    delete user.password;
-
     //* usando la funcion interna de este servicio private getJwtToken
-    return { ...user, token: this.getJwtToken({ id: user.id }) };
+    return { token: this.getJwtToken({ id: user.id }) };
 
     //? En caso de que necesitemos que la funcion getJwtToken se utilice en otros lados esta creada en la capeta "util" el archivo jwt.util como ejemplo
     // return {
