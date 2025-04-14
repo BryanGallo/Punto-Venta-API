@@ -82,4 +82,12 @@ export class AuthController {
       user,
     };
   }
+
+  @Get('protected-route')
+  @Auth()
+  async validateRoute(@GetUser() user: User) {
+    return {
+      user,
+    };
+  }
 }
