@@ -32,6 +32,22 @@ export class AuthController {
     return await this.authService.login(loginUserDto);
   }
 
+  
+  @Post('forgot-password')
+  async forgotPassword(@Body() email: string) {
+    return await this.authService.forgotPassword(email);
+  }
+
+  //?Rutas protegidas
+  @Get('protected-route')
+  @Auth()
+  async validateRoute(@GetUser() user: User) {
+    return {
+      user,
+    };
+  }
+
+  //TODO: EJemplo adicionales borrar a futuro
   //* Esta ruta privada es de ejemplo con diferentes caso de uso para futuras referencia - Solo valida si esta autenticado, autorizacion mas abajo
   @Get('private')
   @UseGuards(AuthGuard())
@@ -78,14 +94,6 @@ export class AuthController {
   @Get('private4')
   @Auth(ValidRoles.superAdmin, ValidRoles.admin)
   async private4(@GetUser() user: User) {
-    return {
-      user,
-    };
-  }
-
-  @Get('protected-route')
-  @Auth()
-  async validateRoute(@GetUser() user: User) {
     return {
       user,
     };

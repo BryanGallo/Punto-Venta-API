@@ -114,6 +114,22 @@ export class AuthService {
     // };
   }
 
+  async forgotPassword(email: string) {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    if (!user) {
+      let errors: string[] = [];
+      errors.push('Usuario no encontrado');
+      throw new NotFoundException(errors);
+    }
+
+    return {
+      messagge: 'Hola',
+    };
+  }
+
   private getJwtToken = (payload: JwtPayload) => {
     const token = this.jwtService.sign(payload);
     return token;
