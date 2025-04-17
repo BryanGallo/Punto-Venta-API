@@ -1,21 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-import { GetProduct } from './dto/get-product.dto';
-import { IdValidationPipe } from '../common/pipes/id-validation/id-validation.pipe';
 import { GetUser } from '../auth/decorator';
-import { User } from '../auth/entities/user.entity';
 import { Auth } from '../auth/decorator/auth.decorator';
+import { User } from '../auth/entities/user.entity';
+import { IdValidationPipe } from '../common/pipes/id-validation/id-validation.pipe';
+import { CreateProductDto } from './dto/create-product.dto';
+import { GetProductDto } from './dto/get-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductsService } from './products.service';
 
 @Controller('products')
 export class ProductsController {
@@ -28,7 +28,7 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query() query: GetProduct) {
+  findAll(@Query() query: GetProductDto) {
     const categoryId = query.category_id ? query.category_id : null;
     const take = query.take ? query.take : 10;
     const skip = query.skip ? query.skip : 0;
