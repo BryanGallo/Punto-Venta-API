@@ -17,6 +17,7 @@ import { User } from './entities/user.entity';
 import { UserRoleGuard } from './guards/user-role/user-role.guard';
 import { ValidRoles } from './interfaces/valid-roles.enum';
 import { Auth } from './decorator/auth.decorator';
+import { ForgotPasswordUser } from './dto/forgot-password-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -32,10 +33,9 @@ export class AuthController {
     return await this.authService.login(loginUserDto);
   }
 
-  
   @Post('forgot-password')
-  async forgotPassword(@Body() email: string) {
-    return await this.authService.forgotPassword(email);
+  async forgotPassword(@Body() forgotPasswordUser: ForgotPasswordUser) {
+    return await this.authService.forgotPassword(forgotPasswordUser);
   }
 
   //?Rutas protegidas
