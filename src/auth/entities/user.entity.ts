@@ -25,6 +25,9 @@ export class User {
   @Column({ type: 'text' })
   password: string;
 
+  @Column({ type: 'varchar', length: 120, default: '' })
+  token: string;
+
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
