@@ -17,6 +17,7 @@ import { User } from './entities/user.entity';
 import { JwtPayload } from './interfaces/jwt-payload.interface.';
 import { Role } from '../roles/entities/role.entity';
 import { ForgotPasswordUser } from './dto/forgot-password-user.dto';
+import { generateToken } from 'src/common/utils/token';
 
 @Injectable()
 export class AuthService {
@@ -117,7 +118,7 @@ export class AuthService {
 
   async forgotPassword(forgotPasswordUser: ForgotPasswordUser) {
     const { email } = forgotPasswordUser;
-    
+
     const user = await this.userRepository.findOne({
       where: { email },
     });
@@ -128,8 +129,12 @@ export class AuthService {
       throw new NotFoundException(errors);
     }
 
+    user.token = generateToken()
+    // console.log(user);
+    await this.userRepository.save(user)
+
     return {
-      messagge: 'Hola',
+      message: 'Revisa tu email para instrucciones',
     };
   }
 
