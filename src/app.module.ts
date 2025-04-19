@@ -3,14 +3,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { typeOrmConfig } from './config/typeorm.config';
+import { EmailsModule } from './emails/emails.module';
+import { PrinterModule } from './printer/printer.module';
 import { ProductsModule } from './products/products.module';
-import { AuthModule } from './auth/auth.module';
+import { AdminReportsModule } from './reports/admin-reports/admin-reports.module';
 import { RolesModule } from './roles/roles.module';
 import { TransactionsModule } from './transactions/transactions.module';
-import { PrinterModule } from './printer/printer.module';
-import { AdminReportsModule } from './reports/admin-reports/admin-reports.module';
 
 @Module({
   controllers: [AppController],
@@ -31,7 +32,8 @@ import { AdminReportsModule } from './reports/admin-reports/admin-reports.module
     RolesModule,
     TransactionsModule,
     PrinterModule,
-    AdminReportsModule
+    AdminReportsModule,
+    EmailsModule
   ],
 })
 export class AppModule {}
