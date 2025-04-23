@@ -154,7 +154,7 @@ export class AuthService {
     }
 
     return {
-      message: 'Token validado correctamente',
+      message: 'Token validado correctamente, actualice su contraseña',
     };
   }
 
