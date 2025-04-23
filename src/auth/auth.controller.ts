@@ -18,6 +18,7 @@ import { UserRoleGuard } from './guards/user-role/user-role.guard';
 import { ValidRoles } from './interfaces/valid-roles.enum';
 import { Auth } from './decorator/auth.decorator';
 import { ForgotPasswordUser } from './dto/forgot-password-user.dto';
+import { ValidateTokenUserDto } from './dto/validate-token-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -36,6 +37,11 @@ export class AuthController {
   @Post('forgot-password')
   async forgotPassword(@Body() forgotPasswordUser: ForgotPasswordUser) {
     return await this.authService.forgotPassword(forgotPasswordUser);
+  }
+
+  @Post('validate-token')
+  async validateToken(@Body() validateTokenUserDto: ValidateTokenUserDto) {
+    return await this.authService.validateToken(validateTokenUserDto);
   }
 
   //?Rutas protegidas

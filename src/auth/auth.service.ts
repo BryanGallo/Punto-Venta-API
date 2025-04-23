@@ -18,6 +18,8 @@ import { JwtPayload } from './interfaces/jwt-payload.interface.';
 import { Role } from '../roles/entities/role.entity';
 import { ForgotPasswordUser } from './dto/forgot-password-user.dto';
 import { generateToken } from 'src/common/utils/token';
+import { ValidateTokenUserDto } from './dto/validate-token-user.dto';
+import { use } from 'passport';
 
 @Injectable()
 export class AuthService {
@@ -129,12 +131,30 @@ export class AuthService {
       throw new NotFoundException(errors);
     }
 
-    user.token = generateToken()
+    user.token = generateToken();
     // console.log(user);
-    await this.userRepository.save(user)
+    await this.userRepository.save(user);
 
     return {
       message: 'Revisa tu email para instrucciones',
+    };
+  }
+
+  async validateToken(validateTokenUserDto: ValidateTokenUserDto) {
+    const { token } = validateTokenUserDto;
+
+    const user = await this.userRepository.findOne({
+      where: { token },
+    });
+
+    if (!user) {
+      let errors: string[] = [];
+      errors.push('Token no valido');
+      throw new NotFoundException(errors);
+    }
+
+    return {
+      message: 'Token validado correctamente',
     };
   }
 
