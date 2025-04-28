@@ -20,6 +20,7 @@ import { ForgotPasswordUser } from './dto/forgot-password-user.dto';
 import { generateToken } from 'src/common/utils/token';
 import { ValidateTokenUserDto } from './dto/validate-token-user.dto';
 import { use } from 'passport';
+import { ResetPasswordUserDto } from './dto/reset-password-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -155,6 +156,37 @@ export class AuthService {
 
     return {
       message: 'Token validado correctamente, actualice su contraseña',
+    };
+  }
+
+  async resetPassword(
+    resetPasswordUser: ResetPasswordUserDto,
+    token: string,
+  ) {
+    const { password, password_confirmation } = resetPasswordUser;
+
+    if (password !== password_confirmation) {
+      let errors: string[] = [];
+      errors.push('Las contraseñas no coinciden');
+      throw new BadRequestException(errors);
+    }
+
+    const user = await this.userRepository.findOne({
+      where: { token },
+    });
+
+    if (!user) {
+      let errors: string[] = [];
+      errors.push('Token no valido');
+      throw new NotFoundException(errors);
+    }
+
+    user.password = await hashPassword(password);
+    user.token = null;
+    await this.userRepository.save(user);
+
+    return {
+      message: 'Contraseña actualizada correctamente',
     };
   }
 

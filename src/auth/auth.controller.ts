@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   SetMetadata,
   UseGuards,
@@ -19,6 +20,7 @@ import { ValidRoles } from './interfaces/valid-roles.enum';
 import { Auth } from './decorator/auth.decorator';
 import { ForgotPasswordUser } from './dto/forgot-password-user.dto';
 import { ValidateTokenUserDto } from './dto/validate-token-user.dto';
+import { ResetPasswordUserDto } from './dto/reset-password-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -42,6 +44,14 @@ export class AuthController {
   @Post('validate-token')
   async validateToken(@Body() validateTokenUserDto: ValidateTokenUserDto) {
     return await this.authService.validateToken(validateTokenUserDto);
+  }
+
+  @Post('reset-password/:token')
+  async resetPassword(
+    @Body() resetPasswordUser: ResetPasswordUserDto,
+    @Param('token') token: string,
+  ) {
+    return await this.authService.resetPassword(resetPasswordUser, token);
   }
 
   //?Rutas protegidas
