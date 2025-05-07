@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
   //?PIPE: se usa para trasformar datos y es para validacion
   app.useGlobalPipes(
     new ValidationPipe({
