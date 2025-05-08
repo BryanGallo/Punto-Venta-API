@@ -21,6 +21,9 @@ $ npm install
 # development
 $ npm run start
 
+# ejecutar seeder para datos de prueba
+$ npm run seed
+
 # watch mode
 $ npm run start:dev
 
