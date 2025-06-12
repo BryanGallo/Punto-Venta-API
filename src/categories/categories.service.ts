@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
@@ -24,13 +24,30 @@ export class CategoriesService {
     return categories;
   }
 
-  async findOne(id: number) {
+  async findOne(id: number, products?: string) {
     //? findOne para consultas complicadas por ejemplo
     // const category = await this.categoryRepository.findOne({
     //   where: { id },
     // });
     //? findOneBy para consultas basicas
-    const category = await this.categoryRepository.findOneBy({ id });
+    // const category = await this.categoryRepository.findOneBy({ id });
+
+    const options: FindManyOptions<Category> = {
+      where: { id },
+    };
+
+    if (products === 'true') {
+      options.relations = {
+        products: true,
+      };
+      options.order = {
+        products: {
+          id: 'ASC',
+        },
+      };
+    }
+
+    const category = await this.categoryRepository.findOne(options);
 
     //TODO: Validando si existe la categoria
     if (!category) {

@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { Auth } from '../auth/decorator/auth.decorator';
 import { ValidRoles } from '../auth/interfaces/valid-roles.enum';
@@ -46,8 +47,11 @@ export class CategoriesController {
   //*Creando nuestro propio pipe para reutilizarlo
   @Get(':id')
   @Auth()
-  findOne(@Param('id', IdValidationPipe) id: string) {
-    return this.categoriesService.findOne(+id);
+  findOne(
+    @Param('id', IdValidationPipe) id: string,
+    @Query('products') products: string,
+  ) {
+    return this.categoriesService.findOne(+id, products);
   }
 
   @Patch(':id')
