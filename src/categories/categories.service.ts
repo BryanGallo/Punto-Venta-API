@@ -54,7 +54,9 @@ export class CategoriesService {
       //? Devolviendo de una manera generica se debe colocar el codigo del status que deseamos retornar
       // throw new HttpException(`La categoria con el id ${id} no existe`, 404);
       //* Usando HTTP exceptions ya otorgados por nest
-      throw new NotFoundException(`La categoria con el id ${id} no existe`);
+      let errors: string[] = [];
+      errors.push(`La categoria con el id ${id} no existe`);
+      throw new NotFoundException(errors);
     }
 
     return category;
